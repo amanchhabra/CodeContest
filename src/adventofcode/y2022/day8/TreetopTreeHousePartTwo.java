@@ -7,7 +7,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 
-public class TreetopTreeHouse {
+public class TreetopTreeHousePartTwo {
 
     static int[][] data;
     public static void main(String[] args) throws IOException, URISyntaxException {
@@ -24,9 +24,7 @@ public class TreetopTreeHouse {
         int visible = 0;
         for(int i=0;i<data.length;i++){
             for(int j=0;j<data.length;j++) {
-                if(checkVisible(i,j)) {
-                    visible++;
-                }
+                visible = Math.max(visible, checkVisible(i,j));
             }
         }
         System.out.println(visible);
@@ -41,33 +39,42 @@ public class TreetopTreeHouse {
         int curView = 0;
         while (minHeight !=-1 && minHeight < height) {
             minHeight = getHeight(--t,j);
+            if(minHeight!=-1)
             curView++;
         }
         view = view*curView;
-        if(minHeight<height) return true;
 
         minHeight = -2;
+        curView = 0;
         t = j;
         while (minHeight !=-1 && minHeight < height) {
             minHeight = getHeight(i,++t);
+            if(minHeight!=-1)
+                curView++;
         }
-        if(minHeight<height) return true;
+        view = view*curView;
 
         minHeight = -2;
+        curView = 0;
         t = i;
         while (minHeight !=-1 && minHeight < height) {
             minHeight = getHeight(++t,j);
+            if(minHeight!=-1)
+                curView++;
         }
-        if(minHeight<height) return true;
+        view = view*curView;
 
         minHeight = -2;
+        curView = 0;
         t = j;
         while (minHeight !=-1 && minHeight < height) {
             minHeight = getHeight(i,--t);
+            if(minHeight!=-1)
+                curView++;
         }
-        if(minHeight<height) return true;
+        view = view*curView;
 
-        return false;
+        return view;
     }
 
     private static int getHeight(int i, int j) {
@@ -76,6 +83,6 @@ public class TreetopTreeHouse {
     }
 
     private static List<String> readInput() throws IOException, URISyntaxException {
-        return Files.readAllLines(Paths.get(Objects.requireNonNull(TreetopTreeHouse.class.getResource("input.txt")).toURI()));
+        return Files.readAllLines(Paths.get(Objects.requireNonNull(TreetopTreeHousePartTwo.class.getResource("input.txt")).toURI()));
     }
 }
